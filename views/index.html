@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/assets/style.css"/>
+</head>
+<body>
+<h1> Hello {{ .Name }}</h1>
+<h2> Your age: {{ .Age}}</h2>
+{{ if .Message}}
+<p>{{.Message}}</p>
+{{end}}
+<form action="/" method="POST">
+    <input name="message"/>
+    <button type="submit">Send message</button>
+</form>
+</body>
+</html>
