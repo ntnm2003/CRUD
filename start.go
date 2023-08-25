@@ -2,6 +2,8 @@ package main
 
 import (
 	"FiberNewBie/ent"
+	"FiberNewBie/ent/account"
+	user2 "FiberNewBie/ent/user"
 	"context"
 	"github.com/gofiber/fiber/v2"
 	_ "github.com/lib/pq"
@@ -52,11 +54,21 @@ func main() {
 		return c.JSON(user)
 	})
 	app.Get("/acc/list", func(c *fiber.Ctx) error {
-		users, err := client.Account.Query().All(ctx)
+		users, err := client.Account.Query().Where(account.IDEQ(2)).All(ctx)
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).SendString("Error querying users")
 		}
 		return c.JSON(users)
+	})
+	app.Get("/acc/user/:uid", func(c *fiber.Ctx) error {
+		uid, _ := strconv.Atoi(c.Params("uid"))
+		acc, err := client.User.Query().Where(user2.IDEQ(uid)).QueryAccount().Only(ctx)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).SendString("Error querying users")
+		}
+
+		return c.JSON(acc)
+
 	})
 	app.Get("/acc/create/:uid/:username/:password", func(c *fiber.Ctx) error {
 
